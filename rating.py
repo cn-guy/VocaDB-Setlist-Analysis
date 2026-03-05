@@ -3,7 +3,7 @@ import streamlit as st
 import joblib
 import numpy as np
 
-file = "model.joblib"
+file = "rating.joblib"
 
 @st.cache_resource
 def load_model(file):
@@ -17,7 +17,7 @@ except FileNotFoundError:
     st.stop()
 
 # App UI
-# Run with `streamlit run main.py`
+# Run with `streamlit run rating.py`
 st.header("Song Rating Predictor")
 st.write("Enter song information below:")
 
@@ -33,7 +33,9 @@ features = np.array([[length_seconds, setlist_frequency, times_favorited]])
 
 if st.button("Predict🎵"):
     prediction = model.predict(features)
+    confidence = model.predict_proba(features)
 
     st.divider()
 
     st.write(f"Model's estimated rating: {prediction[0]}")
+    #st.write(f"Confidence: {confidence[0][0]}")
